@@ -42,11 +42,29 @@ TEST_F(Heap_Test, MinHeapPushPopTest)
             ASSERT_EQ(heap.push(i), 1);
         }
         ASSERT_EQ(heap.size(), max_node + 1);
+
+        try {
+            heap[heap.size()];
+        } catch (std::runtime_error &e) {
+            //std::cerr << "runtime error test1: " << e.what() << std::endl;
+        }
+
+        for (int i = 0; i < heap.size(); ++i) {
+            heap[i];
+        }
+
         for (int i = 0; i <= max_node; ++i) {
             ASSERT_EQ(heap.pop(ret), 1);
             ASSERT_EQ(ret, i);
         }
         ASSERT_EQ(heap.empty(), true);
+
+        try {
+            heap[0];
+        } catch (std::runtime_error &e) {
+            //std::cerr << "runtime error test2: " << e.what() << std::endl;
+        }
+
     }
     // 带有重复数据
     for (int i = 0; i < count; ++i) {
