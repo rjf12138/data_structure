@@ -23,8 +23,8 @@ protected:
 
 TEST_F(Heap_Test, MinHeapBasicTest)
 {
-    int ret = 0;
-    MinHeap<int> heap;
+    ssize_t ret = 0;
+    MinHeap<ssize_t> heap;
     ASSERT_EQ(heap.remove(0), 0);
     ASSERT_EQ(heap.empty(), true);
     ASSERT_EQ(heap.size(), 0);
@@ -34,12 +34,12 @@ TEST_F(Heap_Test, MinHeapBasicTest)
 
 TEST_F(Heap_Test, MinHeapPushPopTest)
 {
-    int ret = 0;
-    int count = 100;
-    MinHeap<int> heap;
-    for (int i = 0; i < count; ++i) {
-        int max_node = rand() % 10000;
-        for (int i = max_node; i >= 0; --i) {
+    ssize_t ret = 0;
+    ssize_t count = 100;
+    MinHeap<ssize_t> heap;
+    for (ssize_t j = 0; j < count; ++j) {
+        ssize_t max_node = rand() % 10000;
+        for (ssize_t i = max_node; i >= 0; --i) {
             ASSERT_EQ(heap.push(i), 1);
         }
         ASSERT_EQ(heap.size(), max_node + 1);
@@ -50,11 +50,11 @@ TEST_F(Heap_Test, MinHeapPushPopTest)
             //std::cerr << "runtime error test1: " << e.what() << std::endl;
         }
 
-        for (int i = 0; i < heap.size(); ++i) {
+        for (ssize_t i = 0; i < heap.size(); ++i) {
             heap[i];
         }
 
-        for (int i = 0; i <= max_node; ++i) {
+        for (ssize_t i = 0; i <= max_node; ++i) {
             ASSERT_EQ(heap.pop(ret), 1);
             ASSERT_EQ(ret, i);
         }
@@ -68,14 +68,14 @@ TEST_F(Heap_Test, MinHeapPushPopTest)
 
     }
     // 带有重复数据
-    for (int i = 0; i < count; ++i) {
-        int max_node = rand() % 10000;
-        for (int i = max_node; i >= 0; --i) {
+    for (ssize_t j = 0; j < count; ++j) {
+        ssize_t max_node = rand() % 10000;
+        for (ssize_t i = max_node; i >= 0; --i) {
             ASSERT_EQ(heap.push(i), 1);
             ASSERT_EQ(heap.push(i), 1);
         }
         ASSERT_EQ(heap.size(), 2 * (max_node + 1));
-        for (int i = 0; i <= max_node; ++i) {
+        for (ssize_t i = 0; i <= max_node; ++i) {
             ASSERT_EQ(heap.pop(ret), 1);
             ASSERT_EQ(ret, i);
 
@@ -88,20 +88,20 @@ TEST_F(Heap_Test, MinHeapPushPopTest)
 
 TEST_F(Heap_Test, MinHeapRemoveTest)
 {
-    int ret = 0;
-    int count = 100;
-    MinHeap<int> heap;
-    for (int i = 0; i < count; ++i) {
-        int max_node = rand() % 1000 + 1;
-        for (int j = max_node; j >= 0; --j) { // 添加的值是独一无二的
+    ssize_t ret = 0;
+    ssize_t count = 100;
+    MinHeap<ssize_t> heap;
+    for (ssize_t i = 0; i < count; ++i) {
+        ssize_t max_node = rand() % 1000 + 1;
+        for (ssize_t j = max_node; j >= 0; --j) { // 添加的值是独一无二的
             ASSERT_EQ(heap.push(j), 1);
         }
 
-        int tmp = heap[0];
-        int size = heap.size();
+        ssize_t tmp = heap[0];
+        ssize_t size = heap.size();
         ASSERT_EQ(heap.remove(0), 1); // 删除第一个元素
         ASSERT_EQ(size, heap.size() + 1); // 元素数量是否改变
-        for (int j = 0; j < heap.size(); ++j) { // tmp的值是否还存在与heap中
+        for (ssize_t j = 0; j < heap.size(); ++j) { // tmp的值是否还存在与heap中
             ASSERT_NE(heap[j], tmp);
         }
 
@@ -109,7 +109,7 @@ TEST_F(Heap_Test, MinHeapRemoveTest)
         tmp = heap[heap.size() / 2 - 1]; // 获取中间位置元素
         ASSERT_EQ(heap.remove(heap.size() / 2 - 1), 1); // 删除中间位置元素
         ASSERT_EQ(size, heap.size() + 1);
-        for (int j = 0; j < heap.size(); ++j) {
+        for (ssize_t j = 0; j < heap.size(); ++j) {
             ASSERT_NE(heap[j], tmp);
         }
 
@@ -117,12 +117,12 @@ TEST_F(Heap_Test, MinHeapRemoveTest)
         size = heap.size();
         ASSERT_EQ(heap.remove(heap.size() - 1), 1); // 删除中间位置元素
         ASSERT_EQ(size, heap.size() + 1);
-        for (int j = 0; j < heap.size(); ++j) {
+        for (ssize_t j = 0; j < heap.size(); ++j) {
             ASSERT_NE(heap[j], tmp);
         }
 
-        int last;
-        for (int j = 0; j < max_node; ++j) {
+        ssize_t last;
+        for (ssize_t j = 0; j < max_node; ++j) {
             heap.pop(ret);
             if (j != 0) { // 测试删除后堆中元素是否结构不变
                 ASSERT_GT(ret, last);
