@@ -1,3 +1,0 @@
-/home/ruanjian/workspace/project_v/data_structure/build/CMakeFiles/data_structure.dir
-/home/ruanjian/workspace/project_v/data_structure/build/CMakeFiles/edit_cache.dir
-/home/ruanjian/workspace/project_v/data_structure/build/CMakeFiles/rebuild_cache.dir
