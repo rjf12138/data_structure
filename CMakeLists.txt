@@ -28,7 +28,7 @@ string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
 # 设置生成文件输出路径
 set(EXECUTABLE_OUTPUT_PATH, ./output/debug/bin)
-add_executable(data_structure ./main/heap_test.cc)
+add_executable(data_structure ./main/queue_test.cc)
 
 target_include_directories(data_structure PUBLIC ./inc/)
 target_include_directories(data_structure PRIVATE ./extern_inc/)
