@@ -22,6 +22,7 @@ struct DoublyListNode {
 
 template <typename V>
 class DoublyList {
+	class Iterator;
 public:
 	DoublyList(void);
 	virtual ~DoublyList(void);
