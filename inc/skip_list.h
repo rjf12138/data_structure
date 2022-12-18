@@ -42,6 +42,37 @@ public:
     void print(void);
     void print_rand(void);
     int8_t random_height(void)
+
+	class Iterator {
+		friend class SkipList;
+	public:
+		Iterator(void);
+		Iterator(const Iterator &iter);
+		~Iterator(void);
+
+		V& operator*();
+		V* operator->();
+		bool operator==(const Iterator& rhs);
+		bool operator!=(const Iterator& rhs);
+		Iterator& operator=(const Iterator& rhs);
+
+		Iterator& operator++();
+		Iterator operator++(int32_t); // 后置
+
+		Iterator& operator--();
+		Iterator operator--(int32_t); // 前置
+
+	private:
+		Iterator(SkipList<K, V,Comparator>* list);
+
+	private:
+		const SkipList<K, V, Comparator>* list_;
+		SkipList<K, V, Comparator>* node_;
+	};
+
+	Iterator begin(void);
+	Iterator end(void);
+
 private:
 	int8_t random_height(void);
 
@@ -218,5 +249,155 @@ void SkipList<K, V,Comparator>::print_rand()
        std::cout << i << ": " << (rand_num[i]) << std::endl;
    }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator::Iterator(void)
+	:list_(nullptr), node_(nullptr)
+{
+
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator::Iterator(const Iterator &iter)
+{
+	*this = iter;
+}
+
+template<typename K, typename V, class Comparator>
+SkipList<K, V,Comparator>::Iterator::Iterator(SkipList<K, V,Comparator>* list)
+:list_(list)
+{
+
+}
+
+template<typename K, typename V, class Comparator>
+SkipList<K, V,Comparator>::Iterator::~Iterator(void)
+{
+
+}
+
+template<typename K, typename V, class Comparator>
+V& SkipList<K, V,Comparator>::Iterator::operator*()
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator*(): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator*(): Iterator not pointer any DoublyList node.");
+	}
+
+	return node_->value;
+}
+
+template<typename K, typename V, class Comparator>
+V* SkipList<K, V,Comparator>::Iterator::operator->()
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator*(): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator*(): Iterator not pointer any DoublyList node.");
+	}
+
+	return &(node_->value);
+}
+
+template<typename K, typename V, class Comparator>
+bool SkipList<K, V,Comparator>::Iterator::operator==(const SkipList<K, V,Comparator>::Iterator& rhs)
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		return false;
+	}
+
+	if (list_ == rhs.list_ && node_ == rhs.node_) {
+		return true;
+	}
+
+	return false;
+}
+
+template<typename K, typename V, class Comparator>
+bool SkipList<K, V,Comparator>::Iterator::operator!=(const SkipList<K, V,Comparator>::Iterator& rhs)
+{
+	return !(*this == rhs);
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator& SkipList<K, V,Comparator>::Iterator::operator=(const SkipList<K, V,Comparator>::Iterator& rhs)
+{
+	list_ = rhs.list_;
+	node_ = rhs.node_;
+
+	return *this;
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator& SkipList<K, V,Comparator>::Iterator::operator++()
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(): Iterator not pointer any DoublyList node.");
+	}
+
+	node_ = node_->next;
+	return *this;
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator SkipList<K, V,Comparator>::Iterator::operator++(int32_t)
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(int32_t): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(int32_t): Iterator not pointer any DoublyList node.");
+	}
+
+	Iterator tmp = *this;
+	node_ = node_->next;
+
+	return tmp;
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator& SkipList<K, V,Comparator>::Iterator::operator--()
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator--(): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator--(): Iterator not pointer any DoublyList node.");
+	}
+
+	node_ = node_->prev;
+	return *this;
+}
+
+template<typename K, typename V, class Comparator>
+typename SkipList<K, V,Comparator>::Iterator SkipList<K, V,Comparator>::Iterator::operator--(int32_t)
+{
+	if (list_ == nullptr || node_ == nullptr) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator--(int32_t): Iterator not pointer any DoublyList node.");
+	}
+
+	if (node_ == &list_->head_ || node_ == &list_->tail_) {
+		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator--(int32_t): Iterator not pointer any DoublyList node.");
+	}
+
+	Iterator tmp = *this;
+	node_ = node_->prev;
+
+	return tmp;
+}
+
 }
 #endif
