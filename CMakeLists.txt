@@ -10,16 +10,6 @@ set(CXX_FLAGS
     # -DVALGRIND
     -DCHECK_PTHREAD_RETURN_VALUE
     -D_FILE_OFFSET_BITS=64
-    -Wall
-    -Wextra
-    -Werror
-    -Wconversion
-    -Wno-unused-parameter
-    -Wold-style-cast
-    -Woverloaded-virtual
-    -Wpointer-arith
-    -Wshadow
-    -Wwrite-strings
     -march=native
     # -MMD
     -rdynamic
@@ -28,7 +18,7 @@ string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
 # 设置生成文件输出路径
 set(EXECUTABLE_OUTPUT_PATH, ./output/debug/bin)
-add_executable(data_structure ./main/queue_test.cc)
+add_executable(data_structure ./main/skip_list_test.cc)
 
 target_include_directories(data_structure PUBLIC ./inc/)
 target_include_directories(data_structure PRIVATE ./extern_inc/)
