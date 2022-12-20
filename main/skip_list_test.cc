@@ -27,7 +27,7 @@ TEST_F(SkipList_Test, SkipListBasicTest)
     ASSERT_EQ(skip_list.erase(0), skip_list.end());
     ASSERT_EQ(skip_list.empty(), true);
     ASSERT_EQ(skip_list.size(), 0);
-    ASSERT_EQ(skip_list.put(100, 1), 0);
+    ASSERT_NE(skip_list.put(100, 1), skip_list.end());
 
     auto iter = skip_list.get(100);
     ASSERT_EQ(iter.key(), 100);
@@ -46,10 +46,12 @@ TEST_F(SkipList_Test, SkipListInsertRemoveTest)
     for (int i = -19999; i <= 19999; ++i) {
         if (i < -9999) {
             ASSERT_EQ(int_skip_list.get(i), int_skip_list.end());
+            continue;
         }
 
         if (i > 9999) {
             ASSERT_EQ(int_skip_list.get(i), int_skip_list.end());
+            continue;
         }
 
         auto iter = int_skip_list.get(i);
@@ -60,10 +62,12 @@ TEST_F(SkipList_Test, SkipListInsertRemoveTest)
     for (int i = -19999; i <= 19999; ++i) {
         if (i < -9999) {
             ASSERT_EQ(int_skip_list.erase(i), int_skip_list.end());
+            continue;
         }
 
         if (i > 9999) {
             ASSERT_EQ(int_skip_list.erase(i), int_skip_list.end());
+            continue;
         }
 
         auto iter = int_skip_list.erase(i);
