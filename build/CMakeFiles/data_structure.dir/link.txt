@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -DCHECK_PTHREAD_RETURN_VALUE -D_FILE_OFFSET_BITS=64 -march=native -rdynamic -g CMakeFiles/data_structure.dir/main/skip_list_test.cc.o -o data_structure   -L/home/ruanjian/workspace/project_v/data_structure/./lib/debug  -Wl,-rpath,/home/ruanjian/workspace/project_v/data_structure/./lib/debug -lgtest -lpthread 
