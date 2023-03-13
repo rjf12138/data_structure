@@ -36,6 +36,19 @@ TEST_F(SkipList_Test, SkipListBasicTest)
     ASSERT_EQ(skip_list.get(1000), skip_list.end());
 }
 
+TEST_F(SkipList_Test, TraverseSkipList)
+{
+    SkipList<ssize_t, ssize_t> skip_list;
+    for (ssize_t i = 99; i > -100; --i) {
+        skip_list.put(i, 1);
+    }
+
+    for (auto iter = skip_list.begin(); iter != skip_list.end(); ++iter) {
+        fprintf(stderr, "%ld ", iter.key());
+    }
+    fprintf(stderr, "\n");
+}
+
 TEST_F(SkipList_Test, SkipListInsertRemoveTest)
 {
     SkipList<int, int> int_skip_list;
