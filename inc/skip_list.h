@@ -24,9 +24,9 @@ public:
 template<typename K, typename V>
 struct SkipListNode {
 public:
+	SkipListNode(void) {}
 	SkipListNode(const K &k, const V &v, const int8_t &l)
-	 :key(k), value(v), level(l)
-	 {}
+	 :key(k), value(v), level(l) {}
 public:
 	K key;
 	V value;
@@ -189,15 +189,12 @@ typename SkipList<K, V, Comparator>::Iterator SkipList<K, V, Comparator>::erase(
 		if (ptr->next[level] == &tail_ || compare_(ptr->next[level]->key, key) == 1) {
 			if (level > 0) {
 				--level;
-			}
-			else {
+			} else {
 				break;
 			}
-		}
-		else if (compare_(ptr->next[level]->key, key) == -1) {
+		} else if (compare_(ptr->next[level]->key, key) == -1) {
 			ptr = ptr->next[level];
-		}
-		else if (compare_(ptr->next[level]->key, key) == 0) {
+		} else if (compare_(ptr->next[level]->key, key) == 0) {
 			remove_ptr = ptr->next[level];
 			ptr->next[level] = remove_ptr->next[level];
 			--level;
@@ -270,7 +267,7 @@ template<typename K, typename V, class Comparator>
 typename SkipList<K, V,Comparator>::Iterator SkipList<K, V,Comparator>::end(void)
 {
 	Iterator iter(this);
-	iter.node_ = &header_;
+	iter.node_ = &tail_;
 
 	return iter;
 }
@@ -355,7 +352,7 @@ typename SkipList<K, V,Comparator>::Iterator& SkipList<K, V,Comparator>::Iterato
 	if (list_ == nullptr || node_ == nullptr || *this == list_->end()) {
 		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(): Iterator not pointer any SkipList node.");
 	}
-	node_ = node_->next;
+	node_ = node_->next[0];
 	return *this;
 }
 
@@ -366,7 +363,7 @@ typename SkipList<K, V,Comparator>::Iterator SkipList<K, V,Comparator>::Iterator
 		throw std::runtime_error("SkipList<K, V,Comparator>::Iterator::operator++(int32_t): Iterator not pointer any SkipList node.");
 	}
 	Iterator tmp = *this;
-	node_ = node_->next;
+	node_ = node_->next[0];
 
 	return tmp;
 }

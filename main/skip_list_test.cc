@@ -39,12 +39,13 @@ TEST_F(SkipList_Test, SkipListBasicTest)
 TEST_F(SkipList_Test, TraverseSkipList)
 {
     SkipList<ssize_t, ssize_t> skip_list;
-    for (ssize_t i = 99; i > -100; --i) {
-        skip_list.put(i, 1);
+    for (ssize_t i = 9; i > -10; --i) {
+        skip_list.put(rand(), 1);
     }
 
+    skip_list.print();
     for (auto iter = skip_list.begin(); iter != skip_list.end(); ++iter) {
-        fprintf(stderr, "%ld ", iter.key());
+        fprintf(stderr, "key: %ld, value: %ld\n", iter.key(), iter.value());
     }
     fprintf(stderr, "\n");
 }
