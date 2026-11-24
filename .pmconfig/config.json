@@ -1,0 +1,73 @@
+{
+  "name": "data_structure",
+  "version": "0.1.2",
+  "path": "/home/ruanjian/workspace/project/data_structure",
+  "uuid": "ae5c093d-316f-4149-9d76-f8bc7d149c3d",
+  "build_system": "cmake",
+  "cmake_minimum_version": "3.10",
+  "language": "CXX",
+  "cxx_standard": 14,
+  "source_dirs": [],
+  "include_dirs": [
+    "inc"
+  ],
+  "extern_inc_dir": "extern_inc",
+  "lib_dir": "lib",
+  "output_dir": "output",
+  "main_file": "skip_list_test.cc",
+  "build_mode": "debug",
+  "generate_type": "executable",
+  "dependencies": [
+    {
+      "name": "gtest",
+      "version": "1.14.0",
+      "lib_type": "static"
+    }
+  ],
+  "deps": {
+    "libs": [
+      "gtest",
+      "pthread"
+    ],
+    "lib_dirs": [],
+    "inc_dirs": [],
+    "src_dirs": []
+  },
+  "build_options": {
+    "debug": {
+      "defines": [
+        "DEBUG"
+      ],
+      "optimization": "-O0 -Wall"
+    },
+    "release": {
+      "defines": [
+        "NDEBUG"
+      ],
+      "optimization": "-O2 -Wall"
+    }
+  },
+  "targets": [
+    {
+      "name": "skip_list_test",
+      "type": "executable",
+      "source_files": [
+        "main/skip_list_test.cc"
+      ]
+    },
+    {
+      "name": "heap_test",
+      "type": "executable",
+      "source_files": [
+        "main/heap_test.cc"
+      ]
+    },
+    {
+      "name": "queue_test",
+      "type": "executable",
+      "source_files": [
+        "main/queue_test.cc"
+      ]
+    }
+  ]
+}

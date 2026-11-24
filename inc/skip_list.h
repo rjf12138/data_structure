@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include <cstdlib>
 #include <stdexcept>
 
 namespace ds {
@@ -24,9 +25,20 @@ public:
 template<typename K, typename V>
 struct SkipListNode {
 public:
-	SkipListNode(void) {}
+	SkipListNode(void)
+	 : level(0)
+	{
+		for (int i = 0; i < MAX_LEVEL; ++i) {
+			next[i] = nullptr;
+		}
+	}
 	SkipListNode(const K &k, const V &v, const int8_t &l)
-	 :key(k), value(v), level(l) {}
+	 :key(k), value(v), level(l)
+	{
+		for (int i = 0; i < MAX_LEVEL; ++i) {
+			next[i] = nullptr;
+		}
+	}
 public:
 	K key;
 	V value;
@@ -74,6 +86,7 @@ public:
 	Iterator erase(Iterator &iter);
 
 	int32_t size(void);
+	void clear(void);
 
     void print(void);
     // void print_rand(void);
@@ -92,7 +105,7 @@ template<typename K, typename V, class Comparator>
 SkipList<K, V, Comparator>::SkipList(void)
 	:size_(0)
 {
-	header_.level = MAX_LEVEL;
+	header_.level = MAX_LEVEL - 1;
 	for (int32_t i = 0; i <= header_.level; ++i) {
 		header_.next[i] = &tail_;
 	}
@@ -101,12 +114,24 @@ SkipList<K, V, Comparator>::SkipList(void)
 template<typename K, typename V, class Comparator>
 SkipList<K, V, Comparator>::~SkipList(void)
 {
+	clear();
+}
+
+template<typename K, typename V, class Comparator>
+void SkipList<K, V, Comparator>::clear(void)
+{
 	SkipListNode<K, V>* next_ptr = header_.next[0];
 	while (next_ptr != &tail_) {
 		SkipListNode<K, V>* remove_ptr = next_ptr;
 		next_ptr = remove_ptr->next[0];
 		delete remove_ptr;
 	}
+
+	header_.level = MAX_LEVEL - 1;
+	for (int32_t i = 0; i <= header_.level; ++i) {
+		header_.next[i] = &tail_;
+	}
+	size_ = 0;
 }
 
 template<typename K, typename V, class Comparator>
@@ -204,7 +229,7 @@ typename SkipList<K, V, Comparator>::Iterator SkipList<K, V, Comparator>::erase(
 	if (remove_ptr != nullptr) {
 		--size_;
 		Iterator iter(this);
-		iter.node_ = remove_ptr; // 返回下一个节点
+		iter.node_ = remove_ptr->next[0]; // 返回下一个节点
 		delete remove_ptr;
 
 		return iter;
@@ -217,7 +242,7 @@ typename SkipList<K, V, Comparator>::Iterator SkipList<K, V, Comparator>::erase(
 template<typename K, typename V, class Comparator>
 typename SkipList<K, V, Comparator>::Iterator SkipList<K, V, Comparator>::erase(Iterator &iter)
 {
-	if (iter.list_ != this) {
+	if (iter.list_ != this || iter.node_ == nullptr || iter.node_ == &tail_) {
 		return end();
 	}
 
@@ -234,10 +259,8 @@ template<typename K, typename V, class Comparator>
 int8_t SkipList<K, V, Comparator>::random_height(void)
 {
 	int8_t height = 0;
-	for (int32_t i = 0; i < MAX_LEVEL; ++i) {
-		if (rand() % 2 == 1) {
-			++height;
-		}
+	while (height < (MAX_LEVEL - 1) && (rand() & 1)) {
+		++height;
 	}
 
 	return height;

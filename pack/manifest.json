@@ -1,0 +1,7 @@
+{
+  "name": "data_structure",
+  "version": "0.1.2",
+  "description": "Header-only C++ data structures: Queue, MinHeap, SkipList, DoubleList",
+  "author": "ruanjian",
+  "lib_type": "header-only"
+}
